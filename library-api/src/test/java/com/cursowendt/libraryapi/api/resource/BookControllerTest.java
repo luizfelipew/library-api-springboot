@@ -1,5 +1,6 @@
 package com.cursowendt.libraryapi.api.resource;
 
+import com.cursowendt.libraryapi.api.dto.BookDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,8 @@ public class BookControllerTest {
     @DisplayName("Deve criar um livro com sucesso.")
     public void createBookTest() throws Exception {
 
-        String json = new ObjectMapper().writeValueAsString(null);
+        BookDTO bookDTO = BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
+        String json = new ObjectMapper().writeValueAsString(bookDTO);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
             .post(BOOK_API)
@@ -42,12 +44,11 @@ public class BookControllerTest {
 
         mockMvc
             .perform(request)
-            .andExpect( status().isCreated())
-            .andExpect( jsonPath("id").isNotEmpty())
-            .andExpect( jsonPath("title").value("Meu Livro"))
-            .andExpect( jsonPath("author").value("Autor"))
-            .andExpect( jsonPath("isbn").value("1213212"));
-
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("id").isNotEmpty())
+            .andExpect(jsonPath("title").value(bookDTO.getTitle()))
+            .andExpect(jsonPath("author").value(bookDTO.getAuthor()))
+            .andExpect(jsonPath("isbn").value(bookDTO.getIsbn()));
     }
 
     @Test

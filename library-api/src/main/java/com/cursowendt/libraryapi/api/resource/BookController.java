@@ -4,10 +4,10 @@ import com.cursowendt.libraryapi.api.dto.BookDTO;
 import com.cursowendt.libraryapi.api.exception.ApiErrors;
 import com.cursowendt.libraryapi.api.model.entity.Book;
 import com.cursowendt.libraryapi.api.service.BookService;
+import com.cursowendt.libraryapi.exception.BusinessException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -44,5 +43,11 @@ public class BookController {
     public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex){
         BindingResult bindingResult = ex.getBindingResult();
         return new ApiErrors(bindingResult);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleBusinessException(BusinessException ex) {
+        return new ApiErrors(ex);
     }
 }

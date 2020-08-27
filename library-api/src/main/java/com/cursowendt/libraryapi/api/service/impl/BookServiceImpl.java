@@ -7,6 +7,8 @@ import com.cursowendt.libraryapi.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -23,6 +25,11 @@ public class BookServiceImpl implements BookService {
             throw  new BusinessException("Isbn já cadastrado.");
         }
         return bookRepository.save(book);
+    }
+
+    @Override
+    public Optional<Book> getById(final Long id) {
+        return Optional.empty();
     }
 
 }

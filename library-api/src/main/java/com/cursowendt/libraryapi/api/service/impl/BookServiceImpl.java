@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> getById(final Long id) {
-        return Optional.empty();
+        return this.bookRepository.findById(id);
     }
 
     @Override

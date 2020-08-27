@@ -133,7 +133,7 @@ public class BookControllerTest {
     }
 
     @Test
-    @DisplayName("Deeve retornar resource not found quando o livro procurado não existirs")
+    @DisplayName("Deeve retornar resource not found quando o livro procurado não existir")
     public void bookNotFoundTest() throws Exception {
 
         // cenario

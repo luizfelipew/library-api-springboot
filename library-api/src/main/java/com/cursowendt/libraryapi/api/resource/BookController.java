@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDTO create(@RequestBody @Valid BookDTO bookDTO){
+    public BookDTO create(@RequestBody @Valid BookDTO bookDTO) {
         Book entity = modelMapper.map(bookDTO, Book.class);
         entity = bookService.save(entity);
         return modelMapper.map(entity, BookDTO.class);
@@ -46,12 +47,18 @@ public class BookController {
         return bookService.getById(id)
             .map(book -> modelMapper.map(book, BookDTO.class))
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        Book book = bookService.getById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
+        bookService.delete(book);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex){
+    public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         return new ApiErrors(bindingResult);
     }
@@ -61,4 +68,5 @@ public class BookController {
     public ApiErrors handleBusinessException(BusinessException ex) {
         return new ApiErrors(ex);
     }
+
 }

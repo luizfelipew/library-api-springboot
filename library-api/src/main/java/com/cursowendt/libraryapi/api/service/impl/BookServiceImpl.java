@@ -7,6 +7,7 @@ import com.cursowendt.libraryapi.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,12 +35,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(final Book book) {
-
+        if (Objects.isNull(book) || Objects.isNull(book.getId())){
+            throw new IllegalArgumentException("Book id can't be null.");
+        }
+        this.bookRepository.delete(book);
     }
 
     @Override
     public Book update(final Book book) {
-        return null;
+        if (Objects.isNull(book) || Objects.isNull(book.getId())){
+            throw new IllegalArgumentException("Book id can't be null.");
+        }
+        return this.bookRepository.save(book);
     }
 
 }

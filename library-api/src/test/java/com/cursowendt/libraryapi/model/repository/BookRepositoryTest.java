@@ -41,14 +41,6 @@ public class BookRepositoryTest {
         assertThat(exists).isTrue();
     }
 
-    private Book createNewBook(final String isbn) {
-        return Book.builder()
-            .title("Aventuras")
-            .author("Fulano")
-            .isbn(isbn)
-            .build();
-    }
-
     @Test
     @DisplayName("Deve retornar false quando não existir um livro na base com o isbn informado")
     public void returnFalseWhenIsbnDoesntExists() {
@@ -74,6 +66,44 @@ public class BookRepositoryTest {
 
         // verificacao
         assertThat(foundBook.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Deve salvar um livro.")
+    public void saveBookTest() {
+        // cenario
+        Book book = createNewBook("123");
+
+        // execucao
+        Book savedBook = bookRepository.save(book);
+
+        // verificacoes
+        assertThat(savedBook).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Deve deletar um livro.")
+    public void deleteBookTest() {
+        // cenario
+        Book book = createNewBook("123");
+        entityManager.persist(book);
+
+        // execucao
+        Book foundBook = entityManager.find(Book.class, book.getId());
+        bookRepository.delete(foundBook);
+
+        Book deletedBook = entityManager.find(Book.class, book.getId());
+        // verificacoes
+        assertThat(deletedBook).isNull();
+
+    }
+
+    private Book createNewBook(final String isbn) {
+        return Book.builder()
+            .title("Aventuras")
+            .author("Fulano")
+            .isbn(isbn)
+            .build();
     }
 
 }

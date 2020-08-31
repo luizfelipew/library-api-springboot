@@ -5,6 +5,8 @@ import com.cursowendt.libraryapi.api.service.BookService;
 import com.cursowendt.libraryapi.api.model.repository.BookRepository;
 import com.cursowendt.libraryapi.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -47,6 +49,11 @@ public class BookServiceImpl implements BookService {
             throw new IllegalArgumentException("Book id can't be null.");
         }
         return this.bookRepository.save(book);
+    }
+
+    @Override
+    public Page<Book> find(final Book filter, final Pageable pageRequest) {
+        return null;
     }
 
 }

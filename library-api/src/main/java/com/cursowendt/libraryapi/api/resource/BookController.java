@@ -2,8 +2,8 @@ package com.cursowendt.libraryapi.api.resource;
 
 import com.cursowendt.libraryapi.api.dto.BookDTO;
 import com.cursowendt.libraryapi.api.exception.ApiErrors;
-import com.cursowendt.libraryapi.api.model.entity.Book;
-import com.cursowendt.libraryapi.api.service.BookService;
+import com.cursowendt.libraryapi.model.entity.Book;
+import com.cursowendt.libraryapi.service.BookService;
 import com.cursowendt.libraryapi.exception.BusinessException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

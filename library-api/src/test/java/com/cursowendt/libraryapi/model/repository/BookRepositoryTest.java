@@ -1,7 +1,6 @@
 package com.cursowendt.libraryapi.model.repository;
 
-import com.cursowendt.libraryapi.api.model.entity.Book;
-import com.cursowendt.libraryapi.api.model.repository.BookRepository;
+import com.cursowendt.libraryapi.model.entity.Book;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

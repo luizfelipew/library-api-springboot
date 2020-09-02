@@ -1,8 +1,8 @@
-package com.cursowendt.libraryapi.api.service.impl;
+package com.cursowendt.libraryapi.service.impl;
 
-import com.cursowendt.libraryapi.api.model.entity.Book;
-import com.cursowendt.libraryapi.api.model.repository.BookRepository;
-import com.cursowendt.libraryapi.api.service.BookService;
+import com.cursowendt.libraryapi.model.entity.Book;
+import com.cursowendt.libraryapi.model.repository.BookRepository;
+import com.cursowendt.libraryapi.service.BookService;
 import com.cursowendt.libraryapi.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -62,6 +62,11 @@ public class BookServiceImpl implements BookService {
                 .withIgnoreNullValues()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));
         return bookRepository.findAll(example, pageRequest);
+    }
+
+    @Override
+    public Optional<Book> getBookByIsbn(final String isbn) {
+        return null;
     }
 
 }

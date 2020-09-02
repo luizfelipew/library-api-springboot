@@ -1,9 +1,10 @@
 package com.cursowendt.libraryapi.api.service;
 
-import com.cursowendt.libraryapi.api.model.entity.Book;
-import com.cursowendt.libraryapi.api.model.repository.BookRepository;
-import com.cursowendt.libraryapi.api.service.impl.BookServiceImpl;
+import com.cursowendt.libraryapi.model.entity.Book;
+import com.cursowendt.libraryapi.model.repository.BookRepository;
+import com.cursowendt.libraryapi.service.impl.BookServiceImpl;
 import com.cursowendt.libraryapi.exception.BusinessException;
+import com.cursowendt.libraryapi.service.BookService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

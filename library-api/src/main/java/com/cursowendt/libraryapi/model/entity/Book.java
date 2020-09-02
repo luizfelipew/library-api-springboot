@@ -1,4 +1,4 @@
-package com.cursowendt.libraryapi.api.model.entity;
+package com.cursowendt.libraryapi.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.cursowendt.libraryapi.api.model.repository;
+package com.cursowendt.libraryapi.model.repository;
 
-import com.cursowendt.libraryapi.api.model.entity.Book;
+import com.cursowendt.libraryapi.model.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

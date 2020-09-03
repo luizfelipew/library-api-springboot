@@ -1,19 +1,14 @@
 package com.cursowendt.libraryapi.api.resource;
 
 import com.cursowendt.libraryapi.api.dto.BookDTO;
-import com.cursowendt.libraryapi.api.exception.ApiErrors;
 import com.cursowendt.libraryapi.model.entity.Book;
 import com.cursowendt.libraryapi.service.BookService;
-import com.cursowendt.libraryapi.exception.BusinessException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +51,7 @@ public class BookController {
     }
 
     @GetMapping
-    public Page<BookDTO> find(BookDTO bookDTO, Pageable pageRequest){
+    public Page<BookDTO> find(BookDTO bookDTO, Pageable pageRequest) {
         Book filter = modelMapper.map(bookDTO, Book.class);
         Page<Book> result = bookService.find(filter, pageRequest);
         List<BookDTO> list = result.getContent()
@@ -83,19 +78,6 @@ public class BookController {
                 book = bookService.update(book);
                 return modelMapper.map(book, BookDTO.class);
             }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex) {
-        BindingResult bindingResult = ex.getBindingResult();
-        return new ApiErrors(bindingResult);
-    }
-
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleBusinessException(BusinessException ex) {
-        return new ApiErrors(ex);
     }
 
 }

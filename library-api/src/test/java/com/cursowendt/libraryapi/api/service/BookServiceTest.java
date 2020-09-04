@@ -1,10 +1,10 @@
 package com.cursowendt.libraryapi.api.service;
 
+import com.cursowendt.libraryapi.exception.BusinessException;
 import com.cursowendt.libraryapi.model.entity.Book;
 import com.cursowendt.libraryapi.model.repository.BookRepository;
-import com.cursowendt.libraryapi.service.impl.BookServiceImpl;
-import com.cursowendt.libraryapi.exception.BusinessException;
 import com.cursowendt.libraryapi.service.BookService;
+import com.cursowendt.libraryapi.service.impl.BookServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +25,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(SpringExtension.class)
@@ -85,7 +87,7 @@ public class BookServiceTest {
             .isInstanceOf(BusinessException.class)
             .hasMessage("Isbn já cadastrado.");
 
-        Mockito.verify(bookRepository, Mockito.never()).save(book);
+        verify(bookRepository, Mockito.never()).save(book);
     }
 
     @Test
@@ -134,7 +136,7 @@ public class BookServiceTest {
         assertDoesNotThrow(() -> bookService.delete(book));
 
         // verificacoes
-        Mockito.verify(bookRepository, Mockito.times(1)).delete(book);
+        verify(bookRepository, Mockito.times(1)).delete(book);
     }
 
     @Test
@@ -147,7 +149,7 @@ public class BookServiceTest {
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> bookService.delete(book));
 
         // verificacoes
-        Mockito.verify(bookRepository, Mockito.never()).delete(book);
+        verify(bookRepository, Mockito.never()).delete(book);
     }
 
     @Test
@@ -160,7 +162,7 @@ public class BookServiceTest {
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> bookService.update(book));
 
         // verificacoes
-        Mockito.verify(bookRepository, Mockito.never()).save(book);
+        verify(bookRepository, Mockito.never()).save(book);
     }
 
     @Test
@@ -207,6 +209,24 @@ public class BookServiceTest {
         assertThat(result.getContent()).isEqualTo(lista);
         assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
         assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("Deve obter um livro pelo isbn")
+    public void getBookByIsbnTest() {
+        // cenario
+        String isbn = "1230";
+        Mockito.when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(Book.builder().id(1L).isbn(isbn).build()));
+
+        // execucao
+        Optional<Book> book = bookService.getBookByIsbn(isbn);
+
+        // verificacao
+        assertThat(book.isPresent()).isTrue();
+        assertThat(book.get().getId()).isEqualTo(1L);
+        assertThat(book.get().getIsbn()).isEqualTo(isbn);
+
+        Mockito.verify(bookRepository, times(1)).findByIsbn(isbn);
     }
 
 }

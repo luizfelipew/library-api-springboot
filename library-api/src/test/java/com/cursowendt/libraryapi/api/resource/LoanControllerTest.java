@@ -139,12 +139,31 @@ public class LoanControllerTest {
 
         mockMvc.perform(
             patch(LOAN_API.concat("/1"))
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json)
-        ).andExpect(status().isOk());
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                       ).andExpect(status().isOk());
 
         Mockito.verify(loanService, Mockito.times(1)).update(loan);
+    }
+
+    @Test
+    @DisplayName("Deve retornar 404 quando retornar um livro inexistente")
+    public void returnInexistentBookTest() throws Exception {
+        // cenario ( returned: true )
+        final ReturnedLoanDTO returnedLoanDTO = ReturnedLoanDTO.builder().returned(true).build();
+        final String json = new ObjectMapper().writeValueAsString(returnedLoanDTO);
+
+        BDDMockito.given(loanService.getById(Mockito.anyLong())).willReturn(Optional.empty());
+
+
+        mockMvc.perform(
+            patch(LOAN_API.concat("/1"))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                       ).andExpect(status().isNotFound());
+
     }
 
 }

@@ -32,7 +32,7 @@ public class LoanController {
     public Long create(@RequestBody LoanDTO loanDTO) {
         Book book = bookService.getBookByIsbn(loanDTO.getIsbn())
             .orElseThrow(() ->
-                new ResponseStatusException( HttpStatus.BAD_REQUEST, "Book not found for passed isbn"));
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found for passed isbn"));
 
         Loan entity = Loan.builder()
             .book(book)
@@ -46,8 +46,10 @@ public class LoanController {
     }
 
     @PatchMapping("/{id}")
-    public void returnBook(@PathVariable Long id, @RequestBody ReturnedLoanDTO returnedLoanDTO){
-        Loan loan = loanService.getById(id).get();
+    public void returnBook(@PathVariable Long id, @RequestBody ReturnedLoanDTO returnedLoanDTO) {
+        Loan loan = loanService.getById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         loan.setReturned(returnedLoanDTO.getReturned());
         loanService.update(loan);
     }

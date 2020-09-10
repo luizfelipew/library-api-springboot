@@ -6,6 +6,8 @@ import com.cursowendt.libraryapi.model.repository.LoanRepository;
 import com.cursowendt.libraryapi.service.LoanService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
 
@@ -17,6 +19,16 @@ public class LoanServiceImpl implements LoanService {
             throw new BusinessException("Book already loaned");
         }
         return loanRepository.save(loan);
+    }
+
+    @Override
+    public Optional<Loan> getById(final Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Loan update(final Loan loan) {
+        return null;
     }
 
 }

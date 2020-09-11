@@ -1,13 +1,18 @@
 package com.cursowendt.libraryapi.api.resource;
 
 import com.cursowendt.libraryapi.api.dto.LoanDTO;
+import com.cursowendt.libraryapi.api.dto.LoanFilterDTO;
 import com.cursowendt.libraryapi.api.dto.ReturnedLoanDTO;
 import com.cursowendt.libraryapi.model.entity.Book;
 import com.cursowendt.libraryapi.model.entity.Loan;
 import com.cursowendt.libraryapi.service.BookService;
 import com.cursowendt.libraryapi.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +57,12 @@ public class LoanController {
 
         loan.setReturned(returnedLoanDTO.getReturned());
         loanService.update(loan);
+    }
+
+    @GetMapping
+    public Page<LoanDTO> find(LoanFilterDTO loanFilterDTO, Pageable pageable) {
+        Page<Loan> result = loanService.find(loanFilterDTO, pageable);
+        return null;
     }
 
 }

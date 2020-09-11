@@ -28,7 +28,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan update(final Loan loan) {
-        return null;
+        return loanRepository.save(loan);
     }
 
 }

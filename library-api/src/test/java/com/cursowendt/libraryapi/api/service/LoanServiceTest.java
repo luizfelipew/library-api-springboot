@@ -1,11 +1,11 @@
 package com.cursowendt.libraryapi.api.service;
 
 import com.cursowendt.libraryapi.exception.BusinessException;
-import com.cursowendt.libraryapi.service.impl.LoanServiceImpl;
 import com.cursowendt.libraryapi.model.entity.Book;
 import com.cursowendt.libraryapi.model.entity.Loan;
 import com.cursowendt.libraryapi.model.repository.LoanRepository;
 import com.cursowendt.libraryapi.service.LoanService;
+import com.cursowendt.libraryapi.service.impl.LoanServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,6 +119,25 @@ public class LoanServiceTest {
         assertThat(result.get().getLoanDate()).isEqualTo(loan.getLoanDate());
 
         verify(loanRepositoty).findById(id);
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um empréstimo")
+    public void updateLoanTest() {
+        // given
+        Loan loan = createLoan();
+        loan.setId(1L);
+        loan.setReturned(true);
+
+        Mockito.when(loanRepositoty.save(loan)).thenReturn(loan);
+
+        // when
+        Loan updatedLoan = loanService.update(loan);
+
+        // then
+        assertThat(updatedLoan.getReturned()).isTrue();
+
+        verify(loanRepositoty).save(loan);
     }
 
     public Loan createLoan() {

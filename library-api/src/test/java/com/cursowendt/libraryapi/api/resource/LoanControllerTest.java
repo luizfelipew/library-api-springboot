@@ -201,8 +201,6 @@ public class LoanControllerTest {
             .andExpect(jsonPath("totalElements").value(1))
             .andExpect(jsonPath("pageable.pageSize").value(10))
             .andExpect(jsonPath("pageable.pageNumber").value(0));
-
-
     }
 
 }

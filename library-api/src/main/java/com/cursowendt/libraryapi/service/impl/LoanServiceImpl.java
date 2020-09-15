@@ -2,6 +2,7 @@ package com.cursowendt.libraryapi.service.impl;
 
 import com.cursowendt.libraryapi.api.dto.LoanFilterDTO;
 import com.cursowendt.libraryapi.exception.BusinessException;
+import com.cursowendt.libraryapi.model.entity.Book;
 import com.cursowendt.libraryapi.model.entity.Loan;
 import com.cursowendt.libraryapi.model.repository.LoanRepository;
 import com.cursowendt.libraryapi.service.LoanService;
@@ -37,6 +38,11 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Page<Loan> find(final LoanFilterDTO filterDTO, final Pageable pageable) {
         return loanRepository.findByBookIsbnOrCustomer(filterDTO.getIsbn(), filterDTO.getCustomer(), pageable);
+    }
+
+    @Override
+    public Page<Loan> getLoansByBook(final Book book, final Pageable pageable) {
+        return null;
     }
 
 }

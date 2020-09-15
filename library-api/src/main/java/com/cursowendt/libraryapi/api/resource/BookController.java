@@ -96,7 +96,7 @@ public class BookController {
                 return loanDTO;
             }).collect(Collectors.toList());
 
-        return new PageImpl<LoanDTO>(list, pageable, result.getTotalElements());
+        return new PageImpl<>(list, pageable, result.getTotalElements());
     }
 
 }

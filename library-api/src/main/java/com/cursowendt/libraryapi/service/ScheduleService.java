@@ -16,7 +16,7 @@ public class ScheduleService {
 
     private static final String CRON_LATE_LOANS = "0 0 0 1/1 * ?";
 
-    @Value("${application.email.lateloans.message}")
+    @Value("${application.mail.lateloans.message}")
     private String message;
 
     private final LoanService loanService;

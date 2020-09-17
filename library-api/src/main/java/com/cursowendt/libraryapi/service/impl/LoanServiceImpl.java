@@ -7,6 +7,8 @@ import com.cursowendt.libraryapi.model.entity.Loan;
 import com.cursowendt.libraryapi.model.repository.LoanRepository;
 import com.cursowendt.libraryapi.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
 
-    private final LoanRepository loanRepository;
+    @Autowired
+    private LoanRepository loanRepository;
+
+    public LoanServiceImpl(final LoanRepository loanRepositoty) {
+        this.loanRepository = loanRepositoty;
+    }
 
     @Override
     public Loan save(final Loan loan) {

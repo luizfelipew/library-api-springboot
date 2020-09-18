@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 @Api("Book API")
+@Slf4j
 public class BookController {
 
     private final BookService bookService;
@@ -45,6 +47,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Create a book")
     public BookDTO create(@RequestBody @Valid BookDTO bookDTO) {
+        log.info("creating a book for isbn: {}", bookDTO.getIsbn());
         Book entity = modelMapper.map(bookDTO, Book.class);
         entity = bookService.save(entity);
         return modelMapper.map(entity, BookDTO.class);
@@ -53,6 +56,7 @@ public class BookController {
     @GetMapping("/{id}")
     @ApiOperation("Obtains a book details by Id")
     public BookDTO get(@PathVariable Long id) {
+        log.info("Obtaining details for book id: {}", id);
         return bookService.getById(id)
             .map(book -> modelMapper.map(book, BookDTO.class))
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -78,13 +82,16 @@ public class BookController {
             @ApiResponse(code = 204, message = "book successfully deleted")
     })
     public void delete(@PathVariable Long id) {
-        Book book = bookService.getById(id).orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
+        log.info("Deleting book of id: {}", id);
+        Book book = bookService.getById(id)
+                .orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
         bookService.delete(book);
     }
 
     @PutMapping("/{id}")
     @ApiOperation("Updates a book")
     public BookDTO update(@PathVariable Long id, BookDTO bookDTO) {
+        log.info("Updating book of id: {}", id);
         return bookService.getById(id)
             .map(book -> {
                 book.setAuthor(bookDTO.getAuthor());

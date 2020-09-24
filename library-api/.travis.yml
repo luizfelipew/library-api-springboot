@@ -1,8 +1,9 @@
 language: java
 jdk:
+  - oraclejdk8
   - oraclejdk11
-dist: trusty
+dist: xenial
 before_install:
-  - chmod +x mvnw
+  - chmod +x mvn
 after_success:
   - bash <(curl -s https://codecov.io/bash)

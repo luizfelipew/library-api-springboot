@@ -46,7 +46,8 @@ public class BookControllerTest {
     @MockBean
     BookService bookService;
 
-    @MockBean LoanService loanService;
+    @MockBean
+    LoanService loanService;
 
     @Test
     @DisplayName("Deve criar um livro com sucesso.")
